@@ -1,0 +1,94 @@
+{% extends 'Tuluayork/layout.html' %}
+
+{% block content1 %}
+    <a class="intex" href="{% url 'index' %}">Inicio</a>
+    <a class="intex" href="{% url 'weather' %}">Clima</a>
+    
+    
+    {% if request.user.is_authenticated %}
+    
+    
+        {% ifequal request.user.is_staff True %}
+        
+        <a class="mostarusuario" href="{% url 'mostarusuario' %}">Clientes</a>
+        <a class="reservas" href="#">Reservas</a>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+        
+        {%endifequal%}
+    
+        {% ifequal request.user.is_staff False %}
+        
+        <a class="mostrarReservas" href="{% url 'mostrarReservas' %}">Reservas</a>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+        
+        {%endifequal%}
+    
+
+    
+    {% else %}
+    <li><a href="{% url 'register' %}">Registrarse</a></li>
+    <li><a href="{% url 'login' %}">Acceder</a></li>
+    {%endif%}
+
+{% endblock content1 %}
+
+{% block content%}
+
+{% if vuelos%}
+
+
+  <div class="container">
+    <h1>Listado de Vuelos</h1>
+    
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Aerolinea</th>
+                <th>Costo</th>
+                <th>Desde</th>
+                <th>Hacia</th>
+                <th>Fecha de Salida</th>
+                <th>Opciones</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for Vuelos in vuelos %}
+            <tr>
+                <td>{{ Vuelos.id}}</td>
+                <td>{{ Vuelos.aerolinea}}</td>
+                <td>{{ Vuelos.costo }}</td>
+                <td>{{ Vuelos.LugarSalida }}</td>
+                <td>{{ Vuelos.Destino }}</td>
+                <td>{{ Vuelos.fechaSalida }}</td>
+                <td>
+                    {% ifequal request.user.is_staff True %}
+				                  
+                    <a href="{% url 'editar_vuelo' Vuelos.id %}">Editar</a>
+
+					{%endifequal%}
+                   
+                    <a href="{% url 'detalleVuelos' Vuelos.id %}">Detalles</a>
+                    
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+    <br>
+    {% ifequal request.user.is_staff True %}
+					
+        <a href="{% url 'crearVuelo' %}">Crear Vuelo</a>
+
+	{%endifequal%}
+    
+    
+  </div>
+   {% else %}
+   <h1>No existen Vuelos</h1>
+   {% endif %}
+
+
+{% endblock%}

@@ -1,0 +1,81 @@
+{% extends 'Tuluayork/layout.html' %}
+
+{% block content1 %}
+<a class="intex" href="{% url 'index' %}">Inicio</a>
+<a class="intex" href="{% url 'weather' %}">Clima</a>
+    
+    
+    {% if request.user.is_authenticated %}
+    
+    
+        {% ifequal request.user.is_staff True %}
+        <a class="mostrarVuelos" href="{% url 'mostarVuelos' %}">Vuelos</a>
+        
+        <a class="mostarusuario" href="{% url 'mostarusuario' %}">Clientes</a>
+        
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+        
+        {%endifequal%}
+    
+        {% ifequal request.user.is_staff False %}
+        <a class="mostrarVuelosAbril" href="{% url 'mostrarVuelosAbril' %}">Vuelos</a>
+        
+        
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+        
+        {%endifequal%}
+        
+    {% else %}
+    <li><a href="{% url 'register' %}">Registrarse</a></li>
+    <li><a href="{% url 'login' %}">Acceder</a></li>
+    {%endif%}
+
+{% endblock content1 %}
+
+{% block content%}
+
+{% if reservas%}
+
+
+  <div class="container">
+    <h1>Listado de reservas</h1>
+    
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Vuelo</th>
+                <th>Fecha y Hora de Reserva</th>
+                <th>opciones</th>
+             
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for Reserva in reservas %}
+            <tr>
+                <td>{{ Reserva.id}}</td>
+                <td>{{ Reserva.idVuelo}}</td>
+                <td>{{ Reserva.fechaHoraReserva }}</td>
+                <td>
+                    
+                    <a href="{% url 'eliminarReservas' Reserva.id %}">Eliminar</a>
+                                    
+                    
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+    <br>
+    
+    
+    
+  </div>
+   {% else %}
+   <h1>No existen reservas</h1>
+   {% endif %}
+
+
+{% endblock%}

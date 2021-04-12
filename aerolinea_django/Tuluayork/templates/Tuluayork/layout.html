@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Aerolinea Tuluayork</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="../../static/normalize.css">
+	<link rel="stylesheet" type="text/css" href="../../static/style.css">
+</head>
+<body>
+
+	<header class="main-head">
+		<nav class="main">
+			{% if request.user.is_authenticated%}
+			<h1 id="logo">Bienvenido {{user.username}}</h1>
+			{% else %}
+			<h1 id="logo">BIENVENIDOS</h1>
+			{%endif%}
+			
+			<ul>
+				
+				{% block content1 %}
+				<a class="intex" href="{% url 'index' %}">Inicio</a>
+				<a class="intex" href="{% url 'weather' %}">Clima</a>
+				
+				
+				{% if request.user.is_authenticated %}
+					
+					
+					{% ifequal request.user.is_staff True %}
+					<a class="mostrarVuelos" href="{% url 'mostarVuelos' %}">Vuelos</a>
+					<a class="mostarusuario" href="{% url 'mostarusuario' %}">Clientes</a>
+					<a class="mostrarReservas" href="{% url 'mostrarReservas' %}">Reservas</a>
+					<li><a href="{% url 'logout' %}">Logout</a></li>
+					
+					{%endifequal%}
+					
+					{% ifequal request.user.is_staff False %}
+					<a class="mostrarVuelosAbril" href="{% url 'mostrarVuelosAbril' %}">Vuelos</a>
+					<a class="mostrarReservas" href="{% url 'mostrarReservas' %}">Reservas</a>
+					<li><a href="{% url 'logout' %}">Logout</a></li>
+					
+					{%endifequal%}
+				
+	
+				
+				{% else %}
+				<li><a href="{% url 'register' %}">Registrarse</a></li>
+				<li><a href="{% url 'login' %}">Acceder</a></li>
+				{%endif%}
+
+				{% endblock content1 %}
+
+			</ul>
+		</nav>
+	</header>
+
+
+	{% if messages %}
+
+	{%for message in messages%}
+	<div class="notificacion {{message.tags}}">
+
+		{{message}}
+	</div>
+	{%endfor%}
+
+
+
+	{% endif%}
+
+	<!-------------------------------------
+					Messages 
+	-------------------------------------->
+
+	<!-------------------------------------
+					Navigation Bar 
+	-------------------------------------->
+	<div class="main" >
+	
+		
+		<nav class="second-nav ">
+
+			
+		</nav>
+
+
+		{% block content %}
+
+		{% endblock content %}
+
+
+
+	</div>
+
+	<footer>
+		<div class="row">
+			<p>Aerolinea TULUAYORK<br>Vuela a tu medida</p>
+		</div>
+	</footer>
+
+</body>
+</html>

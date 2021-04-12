@@ -1,0 +1,72 @@
+{% extends 'Tuluayork/layout.html' %}
+
+{% block content1 %}
+
+<a class="intex" href="{% url 'index' %}">Inicio</a>
+    
+    
+{% if request.user.is_authenticated %}
+<a class="mostrarVuelos" href="{% url 'mostarVuelos' %}">Vuelos</a>
+
+
+    {% ifequal request.user.is_staff True %}
+    
+    <a class="mostarusuario" href="{% url 'mostarusuario' %}">Clientes</a>
+    <a class="mostrarReservas" href="{% url 'mostrarReservas' %}">Reservas</a>
+    <li><a href="{% url 'logout' %}">Logout</a></li>
+    
+    {%endifequal%}
+
+    {% ifequal request.user.is_staff False %}
+    
+    <a class="mostrarReservas" href="{% url 'mostrarReservas' %}">Tus Reservas</a>
+    <li><a href="{% url 'logout' %}">Logout</a></li>
+    
+    {%endifequal%}
+
+
+
+{% else %}
+<li><a href="{% url 'register' %}">Registrarse</a></li>
+<li><a href="{% url 'login' %}">Acceder</a></li>
+{%endif%}
+
+{% endblock content1 %}
+
+{% block content%}
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-offset-4 is-4">
+                {% for city_weather in weather_data %}
+
+                <div class="box">
+                    <article class="media">
+                        <div class="media-left">
+                            <figure class="image is-50x50">
+                                <img src="http://openweathermap.org/img/w/{{ city_weather.icon }}.png" alt="Image">
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <span class="title">{{ city_weather.city }}</span>
+                                    <br>
+                                    <span class="subtitle">{{ city_weather.temperature }}° F</span>
+                                    <br> {{ city_weather.description }}
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="footer">
+</footer>
+
+
+{% endblock%}
+

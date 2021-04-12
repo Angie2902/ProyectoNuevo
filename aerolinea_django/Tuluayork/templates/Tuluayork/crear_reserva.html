@@ -1,0 +1,13 @@
+{% extends 'Tuluayork/layout.html' %}
+
+{% block content %} 
+    <form method="POST">
+        {% csrf_token %}
+
+        <h2>¿Desea Reservar el vuelo # {{reserva.id}}?</h2>
+            <button type="submit">Reservar</button>
+
+        
+
+    </form>
+{% endblock content %}

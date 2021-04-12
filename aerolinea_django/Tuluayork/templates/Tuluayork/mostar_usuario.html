@@ -1,0 +1,80 @@
+{% extends 'Tuluayork/layout.html' %}
+
+{% block content1 %}
+<a class="intex" href="{% url 'index' %}">Inicio</a>
+<a class="intex" href="{% url 'weather' %}">Clima</a>
+    
+    
+    {% if request.user.is_authenticated %}
+    
+    
+        {% ifequal request.user.is_staff True %}
+        <a class="mostrarVuelos" href="{% url 'mostarVuelos' %}">Vuelos</a>
+        
+        <a class="mostarusuario" href="{% url 'mostarusuario' %}">Clientes</a>
+        <a class="mostrarReservas" href="{% url 'mostrarReservas' %}">Reservas</a>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+        
+        {%endifequal%}
+    
+        {% ifequal request.user.is_staff False %}
+        <a class="mostrarVuelosAbril" href="{% url 'mostrarVuelosAbril' %}">Vuelos</a>
+        
+        <a class="mostrarReservas" href="{% url 'mostrarReservas' %}">Reservas</a>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+        
+        {%endifequal%}
+        
+    {% else %}
+    <li><a href="{% url 'register' %}">Registrarse</a></li>
+    <li><a href="{% url 'login' %}">Acceder</a></li>
+    {%endif%}
+
+{% endblock content1 %}
+
+{% block content%}
+
+{% if usuario%}
+
+
+  <div class="container">
+    <h1>Listado de usuario</h1>
+    
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>email</th>
+                <th>Opciones</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for User in usuario %}
+            <tr>
+                <td>{{ User.username}}</td>
+                <td>{{ User.first_name}}</td>
+                <td>{{ User.last_name }}</td>
+                <td>{{ User.email }}</td>         
+                <td>
+                    
+                    
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+    <br>
+   
+    
+    
+  </div>
+   {% else %}
+   <h1>No existen usuario</h1>
+   {% endif %}
+
+
+{% endblock%}

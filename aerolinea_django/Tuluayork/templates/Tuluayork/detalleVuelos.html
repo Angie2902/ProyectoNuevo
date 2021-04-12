@@ -1,0 +1,64 @@
+{% extends 'Tuluayork/layout.html' %}
+
+{% block content%}
+
+{% if vuelo%}
+  
+
+<div class="container">
+    <h1>Detalle del Vuelo</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Aerolinea</th>
+                <th>Costo</th>
+                <th>Desde</th>
+                <th>Hacia</th>
+                <th>Fecha de Salida</th>
+                <th>fechaLlegada</th>
+                <th>horaSalida</th>
+                <th>horaLlegada</th>
+                <th>Requisitos</th>
+                <th>InfoAdicional</th>
+                
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for Vuelos in vuelo %}
+            <tr>
+                <td>{{ Vuelos.aerolinea}}</td>
+                <td>{{ Vuelos.costo }}</td>
+                <td>{{ Vuelos.LugarSalida }}</td>
+                <td>{{ Vuelos.Destino }}</td>
+                <td>{{ Vuelos.fechaSalida }}</td>
+                <td>{{ Vuelos.fechaLlegada }}</td>
+                <td>{{ Vuelos.horaSalida }}</td>
+                <td>{{ Vuelos.horaLlegada }}</td>
+                <td>{{ Vuelos.Requisitos }}</td>
+                <td>{{ Vuelos.InfoAdicional }}</td>
+
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    {% for Vuelos in vuelo %}
+    {% ifequal request.user.is_staff True %}
+				                  
+    <a href="{% url 'eliminarVuelo' Vuelos.id %}">Eliminar</a>
+    <a href="{% url 'editar_vuelo' Vuelos.id %}">Editar</a>
+    
+
+    {%endifequal%}
+    {% endfor %}
+
+    <a>Reservar</a>
+</div>
+{% else %}
+   <h1>No existen Vuelos</h1>
+{% endif %}
+
+
+{% endblock%}
